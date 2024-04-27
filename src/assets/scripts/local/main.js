@@ -1,3 +1,14 @@
+checkCookie('sessionData').then(result => {
+  if (result) {
+      // авторизован, остаемся тут
+  } else {
+    // не авторизован, выкинуть на форму авторизации
+    window.location.href = "/";
+  }
+});
+
+
+
 window.addEventListener('load', function() {
   var container = document.getElementById('container');
   var windowHeight = window.innerHeight;
@@ -31,12 +42,10 @@ var logoutBtn = document.getElementById("logoutBtn");
 var translateBtn = document.getElementById("translateBtn");
 
 meBtn.addEventListener("click", function() {
-  logoutFunction();
   window.location.href = "/src/templates/pages/me.html";
 });
 
 settingsBtn.addEventListener("click", function() {
-  logoutFunction();
   window.location.href = "/src/templates/pages/settings.html";
 });
 
@@ -46,7 +55,8 @@ logoutBtn.addEventListener("click", function() {
 });
 
 function logoutFunction() {
-  // alert("Выход выполнен");
+  document.cookie = "sessionData=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+  alert("Выход выполнен");
 }
 
 

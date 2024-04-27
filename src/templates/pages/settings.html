@@ -21,23 +21,25 @@
 		<div class="logo"></div>
 		<div class="content">
 			<form id="app">
-				<h3 class="title">Create your personal account</h3>
+				<h3 class="title">Настройки профиля</h3>
 				<div class="name-group">
-					<label for="username" id="userLabel">Username</label>
-					<input type="text" placeholder="Ex: Picasso" id="username" class="form-control" autofocus autocomplete="off" maxlength="13"/>
-					<p class="help-block">Your gravit URL: http://gravit.io/<span id="user">picasso</span></p>
-				</div>
-				<div class="mail-group">
-					<label for="email">E-mail</label>
-					<input type="email" placeholder="you@example.com" class="form-control" />
-					<span class="help-block">For account activation & notifications</span>
+					<label for="username" id="userLabel">Имя пользователя</label>
+					<input type="text" placeholder="Имя пользователя" id="username" class="form-control" autofocus autocomplete="off" maxlength="13"/>
+					<!-- <p class="help-block">Ваш URL: http://talktrek.ru/<span id="user"></span></p> -->	
+				<button class="btn" id="changeLogin">Сменить имя</button>
+
 				</div>
 				<div class="password-group">
-					<label for="password">Password</label>
-					<input type="password" placeholder="*************" class="form-control" />
-					<span class="help-block">Min six characters</span>
+					<label>СМЕНА ПАРОЛЯ</label>
+					<label for="password">Старый пароль</label>
+					<input type="password" id="oldPass" placeholder="*************" class="form-control" />
+					<label for="password">Новый пароль</label>
+					<input type="password" id="newPass" placeholder="*************" class="form-control" />
+					<!-- <span class="help-block">Не меньше 6 символов</span> -->
+					<label for="password">Еще раз новый пароль</label>
+					<input type="password" id="newPass2" placeholder="*************" class="form-control" />
+					<button class="btn" id="changePass">Поменять пароль</button>
 				</div>
-				<button class="btn">Сохранить</button>
 			</form>
 		</div>
 		<footer>
@@ -46,6 +48,7 @@
 		</footer>
 	</div>
 </div>
+<script src="../../../src/assets/scripts/local/tools.js"></script>
 <script src="../../../src/assets/scripts/local/settings.js"></script>
 </body>
 </html>

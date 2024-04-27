@@ -97,7 +97,7 @@ text-align:center;
 cursor:pointer;
 }
 
-.fa-shopping-cart
+.fa-shopping-cart, .fa-cog
 {
 color:#f36175;
 position:absolute;
