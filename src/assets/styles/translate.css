@@ -1,0 +1,152 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+
+mainBody {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    min-height: 90vh;
+    /* background: #5372f0; */
+}
+
+.fa-chevron-left
+{
+color:#f36175;
+position:absolute;
+left:0px;
+top:0px;
+height:50px;
+width:50px;
+display:table-cell;
+line-height:55px;
+text-align:center;
+cursor:pointer;
+}
+
+form {
+    max-width: 690px;
+    width: 100%;
+    padding: 1rem;
+    background: #fff;
+    border-radius: 7px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.01);
+}
+
+.textarea-container {
+    display: flex;
+    gap: 1em;
+}
+
+ textarea {
+    width: 100%;
+    height: 100px;
+    outline: 1px solid transparent;
+    resize: vertical;
+    border: 1px solid #ccc;
+    background: #fff;
+    font-size: 18px;
+    padding: 1rem;
+    border-radius: 5px;
+}
+
+.to-text {
+    background: #eee;
+}
+
+ textarea::placeholder {
+    color: #b7b6b6;
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid #ccc;
+    margin-top: 2rem;
+    padding: .9rem;
+}
+
+.controls select {
+    color: #333;
+    border: none;
+    outline: none;
+    font-size: 18px;
+    background: none;
+    padding-left: 5px;
+}
+
+.icons {
+    display: flex;
+    align-items: center;
+}
+
+.icons i {
+    margin-top: 10px;
+    width: 50px;
+    color: #adadad;
+    font-size: 14px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    justify-content: center;
+}
+
+.controls .icons i:active {
+    transform: scale(0.9);
+}
+
+ button {
+    width: 100%;
+    padding: 14px;
+    outline: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    margin-top: 20px;
+    font-size: 17px;
+    border-radius: 5px;
+    background: #5372f0;
+}
+
+@media (max-width: 660px) {
+    .translator-form {
+        padding: 20px;
+    }
+
+    .textarea-container {
+        flex-direction: column;
+    }
+
+    .to-text {
+        border-left: 0px;
+        border-top: 1px solid #ccc;
+    }
+
+    textarea {
+        height: 200px;
+    }
+
+    .controls .icons {
+        display: none;
+    }
+
+    .translator-form button {
+        padding: 13px;
+        font-size: 16px;
+    }
+
+    .controls select {
+        font-size: 16px;
+    }
+
+    .icons i {
+        font-size: 14px;
+    }
+}

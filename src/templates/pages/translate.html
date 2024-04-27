@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <title>TalkTrek Переводчик</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="../../../src/assets/styles/translate.css">
+    <link rel="stylesheet" href="../../../src/assets/styles/main.css">
+</head>
+
+<body>
+    <header>
+        <i class="fa fa-chevron-left" id="goMainBtn"></i>
+        <h1>TalkTrek</h1>
+    </header>
+<mainBody>
+    <main class="container">
+        <form class="translator-form">
+            <div class="textarea-container">
+                <label for="from-text" class="sr-only">Enter text</label>
+                <textarea spellcheck="false" id="from-text" class="from-text" placeholder="Введите текст"></textarea>
+                <label for="to-text" class="sr-only">Translation</label>
+                <textarea spellcheck="false" readonly disabled id="to-text" class="to-text"
+                    placeholder="Перевод"></textarea>
+            </div>
+
+            <div class="controls">
+                <label for="language-select" class="sr-only">Select source language</label>
+                <select id="language-select" aria-label="Select source language"></select>
+
+                <i class="fas fa-exchange-alt exchange-icon" id="exchange" aria-label="Exchange languages"></i>
+
+                <label for="target-language-select" class="sr-only">Select target language</label>
+                <select id="target-language-select" aria-label="Select target language"></select>
+            </div>
+
+            <!-- <div class="icons">
+                <i class="fas fa-volume-up" id="from-speak" aria-label="Speak source text"></i>
+                <i class="fas fa-copy" id="from-copy" aria-label="Copy source text"></i>
+                <i class="fas fa-volume-up" id="to-speak" aria-label="Speak translated text"></i>
+                <i class="fas fa-copy" id="to-copy" aria-label="Copy translated text"></i>
+            </div> -->
+        </form>
+        <button id="translate-button">Перевести</button>
+
+    </main>
+</mainBody>
+    <script src="../../../src/assets/scripts/local/translate.js"></script>
+</body>
+
+</html>

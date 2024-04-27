@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>TalkTrek Настройки</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="../../../src/assets/styles/translate.css">
+  <link rel="stylesheet" href="../../../src/assets/styles/main.css">
+  <link rel="stylesheet" href="../../../src/assets/styles/settings.css">
+</head>
+
+<body>
+    <header>
+        <i class="fa fa-chevron-left" id="goMainBtn"></i>
+        <h1>TalkTrek</h1>
+    </header>
+<div class="center">
+	<div class="login register">
+		<div class="logo"></div>
+		<div class="content">
+			<form id="app">
+				<h3 class="title">Create your personal account</h3>
+				<div class="name-group">
+					<label for="username" id="userLabel">Username</label>
+					<input type="text" placeholder="Ex: Picasso" id="username" class="form-control" autofocus autocomplete="off" maxlength="13"/>
+					<p class="help-block">Your gravit URL: http://gravit.io/<span id="user">picasso</span></p>
+				</div>
+				<div class="mail-group">
+					<label for="email">E-mail</label>
+					<input type="email" placeholder="you@example.com" class="form-control" />
+					<span class="help-block">For account activation & notifications</span>
+				</div>
+				<div class="password-group">
+					<label for="password">Password</label>
+					<input type="password" placeholder="*************" class="form-control" />
+					<span class="help-block">Min six characters</span>
+				</div>
+				<button class="btn">Сохранить</button>
+			</form>
+		</div>
+		<footer>
+			<!-- <p>By signing up you are agreeing to Gravit's <a href="" class="terms">Terms of Use</a> -->
+			</p>
+		</footer>
+	</div>
+</div>
+<script src="../../../src/assets/scripts/local/settings.js"></script>
+</body>
+</html>
