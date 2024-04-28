@@ -118,7 +118,7 @@ function getUserName() {
         }
     })
     .then(login => {
-        document.getElementById('username').value = login;
+        document.getElementById('username').value = login.message;
     })
     .catch(error => {
         console.error('Ошибка:', error);

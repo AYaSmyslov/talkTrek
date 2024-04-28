@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>TalkTrek lorem</title>
+  <link rel='stylesheet' href='https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css'>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
+    <!-- <link rel="stylesheet" href="../../../src/assets/styles/main.css"> -->
+
+  <link rel="stylesheet" href="../../../../src/assets/styles/manuals/lorem.css">
+
+</head>
+<body>
+  <main>
+    <nav id="navbar">
+      <header>Applied Accessibility</header>
+      <ul>
+        <li><a class="nav-link" href="/src/templates/pages/manual.html">Вернуться назад</a></li>
+        <li><a class="nav-link" href="#Introduction">Introduction</a></li>
+        <li>
+          <a class="nav-link" href="#text_alternative"
+            >Text Alternative</a>
+        </li>
+        <li>
+          <a class="nav-link" href="#blank_text">Blank Text</a>
+        </li>
+        <li><a class="nav-link" href="#use_headings">Use Headings</a></li>
+        <li><a class="nav-link" href="#jumping_straight_to_content">Jumping Straight to Content</a></li>
+        <li>
+          <a class="nav-link" href="#wrapping_content">Wrapping Content</a>
+        </li>
+        <li><a class="nav-link" href="#colorblindness_issues">Colorblindness Issues</a></li>
+        <li><a class="nav-link" href="#screen_reader_navigation">Screen Reader Navigation</a></li>
+        <li><a class="nav-link" href="#nav_and_footer_landmark">Nav and Footer Landmark</a></li>
+        <li><a class="nav-link" href="#Audio_content_and_element">Audio Content and Element</a></li>
+        <li>
+          <a class="nav-link" href="#figure_element">Figure Element</a>
+        </li>
+        <li><a class="nav-link" href="#label_element">Label Element</a></li>
+        <li>
+          <a class="nav-link" href="#date_picker"
+            >Date Picker</a
+          >
+        </li>
+        <li><a class="nav-link" href="#References">References</a></li>
+      </ul>
+    </nav>
+    <main id="main-doc">
+      <section class="main-section" id="Introduction">
+        <header>Introduction</header>
+        <article>
+          <p>
+            Improving accessibility for visually and audibly impaired individuals is an important element of web development. It is imparitive that web developers keep this in mind as they develop sites for clients. 
+          </p>
+            </li>
+          </ul>
+        </article>
+      </section>
+      <section class="main-section" id="text_alternative">
+        <header>Text Alternative</header>
+        <article>
+          <p>It's likely that you've seen an alt attribute on an img tag in other challenges. Alt text describes the content of the image and provides a text-alternative for it. This helps in cases where the image fails to load or can't be seen by a user. It's also used by search engines to understand what an image contains to include it in search results. Some reasons for providing visually impaired accessibility are:</p>
+    
+          <ul>
+            <li>
+              People with visual impairements rely on screen readers to convert web content.
+            </li>
+            <li>Some audio-only users will not be able to obtain information that is only presented visually.</li>
+            <li>
+              Visual-only users will not be able to obtain information only presented audibly. 
+            </li>
+          </ul>
+        </article>
+      </section>
+      <section class="main-section" id="blank_text">
+        <header>Blank Text</header>
+        <article>
+          <p>
+            Sometimes images are grouped with a caption already describing them, or are used for decoration only. In these cases alt text may seem redundant or unnecessary.
+    In situations when an image is already explained with text content, or does not add meaning to a page, the img still needs an alt attribute, but it can be set to an empty string. Here's an example:
+            <code
+            > < img src="visualDecoration.jpeg" alt="">
+          </code>
+          </p>
+    
+          <p>
+            Background images usually fall under the 'decorative' label as well. However, they are typically applied with CSS rules, and therefore not part of the markup screen readers process.
+    
+    
+          </p>
+          <p>
+            Note: For images with a caption, you may still want to include alt text, since it helps search engines catalog the content of the image.
+          </p>
+        </article>
+      </section>
+      <section class="main-section" id="use_headings">
+        <header>Use Headings</header>
+        <article>
+          Headings (h1 through h6 elements) are workhorse tags that help provide structure and labeling to your content. Screen readers can be set to read only the headings on a page so the user gets a summary. This means it is important for the heading tags in your markup to have semantic meaning and relate to each other, not be picked merely for their size values.
+    Semantic meaning means that the tag you use around content indicates the type of information it contains.
+    If you were writing a paper with an introduction, a body, and a conclusion, it wouldn't make much sense to put the conclusion as a subsection of the body in your outline. It should be its own section. Similarly, the heading tags in a webpage need to go in order and indicate the hierarchical relationships of your content.
+    Headings with equal (or higher) rank start new implied sections, headings with lower rank start subsections of the previous one.
+    As an example, a page with an h2 element followed by several subsections labeled with h4 tags would confuse a screen reader user. With six choices, it's tempting to use a tag because it looks better in a browser, but you can use CSS to edit the relative sizing.
+    One final point, each page should always have one (and only one) h1 element, which is the main subject of your content. This and the other headings are used in part by search engines to understand the topic of the page.
+    
+        </article>
+      </section>
+      <section class="main-section" id="jumping_straight_to_content">
+        <header>Jumping Straight to Content</header>
+        <p>
+         HTML5 introduced a number of new elements that give developers more options while also incorporating accessibility features. These tags include main, header, footer, nav, article, and section, among others.
+    
+        </p>
+        <p>
+          By default, a browser renders these elements similarly to the humble div. However, using them where appropriate gives additional meaning in your markup. The tag name alone can indicate the type of information it contains, which adds semantic meaning to that content. Assistive technologies can access this information to provide better page summary or navigation options to their users.
+    
+        </p>
+        <p>
+          The main element is used to wrap (you guessed it) the main content, and there should be only one per page. It's meant to surround the information that's related to the central topic of your page. It's not meant to include items that repeat across pages, like navigation links or banners.
+    The main tag also has an embedded landmark feature that assistive technology can use to quickly navigate to the main content. If you've ever seen a "Jump to Main Content" link at the top of a page, using a main tag automatically gives assistive devices that functionality.
+    
+        </p>
+      </section>
+      <section class="main-section" id="wrapping_content">
+        <header>Wrapping Content</header>
+        <article>
+          Article is another one of the new HTML5 elements that adds semantic meaning to your markup. article is a sectioning element, and is used to wrap independent, self-contained content. The tag works well with blog entries, forum posts, or news articles.
+    
+          <p>
+            Determining whether content can stand alone is usually a judgement call, but there are a couple simple tests you can use. Ask yourself if you removed all surrounding context, would that content still make sense? Similarly for text, would the content hold up if it were in an RSS feed?
+    Remember that folks using assistive technologies rely on organized, semantically meaningful markup to better understand your work. For Example:
+     <code> div-groups content  </code> 
+          </p>
+          <p>
+            <code>section-groups related content</code> The section element is also new with HTML5, and has a slightly different semantic meaning than article. An article is for standalone content, and a section is for grouping thematically related content. They can be used within each other, as needed. For example, if a book is the article, then each chapter is a section. When there's no relationship between groups of content, then use a div.
+          </p>
+          <p>
+            With the keyword let. For example,<code> article-groups independent, self-contained content</code> 
+          </p>
+        </article>
+      </section>
+      <section class="main-section" id="colorblindness_issues">
+        <header>Colorblindness Issues</header>
+        <article>
+          <p>
+           There are various forms of colorblindness. These can range from a reduced sensitivity to a certain wavelength of light to the inability to see color at all. The most common form is a reduced sensitivity to detect greens.
+          </p>
+    
+          <p>
+        For example, if two similar green colors are the foreground and background color of your content, a colorblind user may not be able to distinguish them. Close colors can be thought of as neighbors on the color wheel, and those combinations should be avoided when conveying important information.
+          </p>
+        </article>
+      </section>
+      <section class="main-section" id="screen_reader_navigation">
+        <header>Screen Reader Navigation</header>
+        <article>
+          <p>
+            The next HTML5 element that adds semantic meaning and improves accessibility is the header tag. It's used to wrap introductory information or navigation links for its parent tag and works well around content that's repeated at the top on multiple pages.
+    header shares the embedded landmark feature you saw with main, allowing assistive technologies to quickly navigate to that content.
+    </p>
+    
+          <p>
+          The header is meant for use in the body tag of your HTML document. This is different than the head element, which contains the page's title, meta information, etc.
+    
+          </p>
+        </article>
+      </section>
+      <section class="main-section" id="nav_and_footer_landmark">
+        <header>Nav and Footer Landmark</header>
+        <article>
+          <p>
+    The nav element is another HTML5 item with the embedded landmark feature for easy screen reader navigation. This tag is meant to wrap around the main navigation links in your page.
+    If there are repeated site links at the bottom of the page, it isn't necessary to markup those with a nav tag as well. Using a footer (covered in the next challenge) is sufficient.
+    
+          </p>
+          <p>
+          Similar to header and nav, the footer element has a built-in landmark feature that allows assistive devices to quickly navigate to it. It's primarily used to contain copyright information or links to related documents that usually sit at the bottom of a page.
+          </p>
+        </article>
+      </section>
+      <section class="main-section" id="Audio_content_and_element">
+        <header>Audio Content and Element</header>
+        <article>
+          <p>HTML5's audio element gives semantic meaning when it wraps sound or audio stream content in your markup. Audio content also needs a text alternative to be accessible to people who are deaf or hard of hearing. This can be done with nearby text on the page or a link to a transcript.
+    The audio tag supports the controls attribute. This shows the browser default play, pause, and other controls, and supports keyboard functionality. This is a boolean attribute, meaning it doesn't need a value, its presence on the tag turns the setting on.
+    </p>
+          <ul>
+            <li>
+              <p>Here are some examples:</p>
+              <ul>
+                <li><code>audio id=meow clip controls</code></li>
+                <li>
+                  source src="audio/meow.mp3" type="audio/mpeg"
+                </li>
+                <li>source src="audio/meow.ogg" type="audio/ogg"</li>
+              </ul>
+            </li>
+          </ul>
+          Multimedia content usually has both visual and auditory components. It needs synchronized captions and a transcript so users with visual and/or auditory impairments can access it. Generally, a web developer is not responsible for creating the captions or transcript, but needs to know to include them.
+        </article>
+      </section>
+      <section class="main-section" id="figure_element">
+        <header>Figure Element</header>
+        <article>
+          HTML5 introduced the figure element, along with the related figcaption. Used together, these items wrap a visual representation (like an image, diagram, or chart) along with its caption. This gives a two-fold accessibility boost by both semantically grouping related content, and providing a text alternative that explains the figure.
+          <p>
+            For data visualizations like charts, the caption can be used to briefly note the trends or conclusions for users with visual impairments. Another challenge covers how to move a table version of the chart's data off-screen (using CSS) for screen reader users.
+        </article>
+      </section>
+      <section class="main-section" id="label_element">
+        <header>Label Element</header>
+        <article>
+          Improving accessibility with semantic HTML markup applies to using both appropriate tag names as well as attributes. The next several challenges cover some important scenarios using attributes in forms.
+          <p>
+           The label tag wraps the text for a specific form control item, usually the name or label for a choice. This ties meaning to the item and makes the form more readable. The for attribute on a label tag explicitly associates that label with the form control and is used by screen readers.
+    You learned about radio buttons and their labels in a lesson in the Basic HTML section. In that lesson, we wrapped the radio button input element inside a label element along with the label text in order to make the text clickable. Another way to achieve this is by using the for attribute as explained in this lesson.
+          </p>
+          <p>
+            The value of the for attribute must be the same as the value of the id attribute of the form control.
+          </p>
+        </article>
+      </section>
+      <section class="main-section" id="date_picker">
+        <header>Date Picker</header>
+        <article>
+         Forms often include the input field, which can be used to create several different form controls. The type attribute on this element indicates what kind of input will be created.
+    You may have noticed the text and submit input types in prior challenges, and HTML5 introduced an option to specify a date field. Depending on browser support, a date picker shows up in the input field when it's in focus, which makes filling in a form easier for all users.
+    For older browsers, the type will default to text, so it helps to show users the expected date format in the label or as placeholder text just in case.
+        </article>
+      </section>
+      <section class="main-section" id="References">
+        <header>References</header>
+        <article>
+          <ul>
+            <li>
+              All the documentation in this page is taken from
+              <a
+                href="https://codeacademy.com"
+                target="_blank"
+                >CodeAcademy</a
+              >
+            </li>
+          </ul>
+        </article>
+      </section>
+    </main>
+    <!-- <script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script> -->
+  </main>
+    </body>
+    </html>

@@ -49,7 +49,7 @@ function getUserName() {
         }
     })
     .then(login => {
-        document.getElementById('username').innerText = login;
+        document.getElementById('username').innerText = login.message;
     })
     .catch(error => {
         console.error('Ошибка:', error);

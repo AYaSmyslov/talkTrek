@@ -38,7 +38,7 @@ document.getElementById("close").addEventListener("click", function () {
 var meBtn = document.getElementById("meBtn");
 var settingsBtn = document.getElementById("settingsBtn");
 var logoutBtn = document.getElementById("logoutBtn");
-
+var manualBtn = document.getElementById("manualBtn");
 var translateBtn = document.getElementById("translateBtn");
 
 meBtn.addEventListener("click", function() {
@@ -59,6 +59,9 @@ function logoutFunction() {
   alert("Выход выполнен");
 }
 
+manualBtn.addEventListener("click", function() {
+  window.location.href = "/src/templates/pages/manual.html";
+});
 
 translateBtn.addEventListener("click", function() {
   window.location.href = "/src/templates/pages/translate.html";
