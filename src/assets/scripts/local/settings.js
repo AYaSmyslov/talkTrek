@@ -12,14 +12,14 @@ let cookieValue = getCookieValue('sessionData');
 let cookieData = JSON.parse(cookieValue);
 
 var goMainBtn = document.getElementById("goMainBtn");
-goMainBtn.addEventListener("click", function() {
+goMainBtn.addEventListener("click", function () {
 	window.location.href = "/src/templates/pages/main.html";
 });
 
 var goMeBtn = document.getElementById("goMeBtn");
 
-goMeBtn.addEventListener("click", function() {
-    window.location.href = "/src/templates/pages/me.html";
+goMeBtn.addEventListener("click", function () {
+	window.location.href = "/src/templates/pages/me.html";
 });
 
 // document.querySelector('.btn').addEventListener('click', function(e) {
@@ -28,7 +28,7 @@ goMeBtn.addEventListener("click", function() {
 // });
 
 var changeLoginBtn = document.getElementById("changeLogin");
-changeLoginBtn.addEventListener("click", function(e) {
+changeLoginBtn.addEventListener("click", function (e) {
 	updateLogin();
 });
 
@@ -38,33 +38,33 @@ function updateLogin() {
 	fetch(`/updLogin`, {
 		method: 'POST',
 		credentials: 'same-origin',
-        headers: {
+		headers: {
 			'Content-Type': 'application/json'
-        },
+		},
 		body: JSON.stringify({
 			cookieData,
 			username: username
 		})
 
-    })
-    .then(response => {
-		if (!response.ok) {
-			throw new Error('Ошибка сети');
-		}
-		alert('Изменения сохранены');
-		// location.reload();
-    })
-    .catch(error => {
-		console.error('Ошибка:', error);
-    });
-	
-	
+	})
+		.then(response => {
+			if (!response.ok) {
+				throw new Error('Ошибка сети');
+			}
+			// location.reload();
+		})
+		// .catch(error => { почему-то всегда исключение кидает
+		// 	console.error('Ошибка:', error.toString());
+		// 	alert('Имя пользователя недоступно');
+		// });
+
+
 }
 
 
 
 var changePassBtn = document.getElementById("changePass");
-changePassBtn.addEventListener("click", function(e) {
+changePassBtn.addEventListener("click", function (e) {
 	updatePass();
 });
 
@@ -81,54 +81,54 @@ function updatePass() {
 	fetch(`/updPass`, {
 		method: 'POST',
 		credentials: 'same-origin',
-        headers: {
+		headers: {
 			'Content-Type': 'application/json'
-        },
+		},
 		body: JSON.stringify({
 			cookieData,
 			oldPass: oldPass,
 			newPass: newPass
 		})
 
-    })
-    .then(response => {
-		if (!response.ok) {
-			throw new Error('Ошибка сети');
-		}
-		alert('Изменения сохранены');
-		// location.reload();
-    })
-    .catch(error => {
-		console.error('Ошибка:', error);
-    });
-	
-	
+	})
+		.then(response => {
+			if (!response.ok) {
+				throw new Error('Ошибка сети');
+			}
+			alert('Изменения сохранены');
+			// location.reload();
+		})
+		.catch(error => {
+			console.error('Ошибка:', error);
+		});
+
+
 }
 
 
 
 function getUserName() {
 	fetch(`/getUserName`, {
-        method: 'POST',
+		method: 'POST',
 		credentials: 'same-origin',
-        headers: {
-            'Content-Type': 'application/json'
-        },
+		headers: {
+			'Content-Type': 'application/json'
+		},
 		body: cookieData
-    })
-    .then(response => {
-        if (response.ok) {
-            return response.json();
-        } else {
-            throw new Error('Ошибка при получении имени пользователя');
-        }
-    })
-    .then(login => {
-        document.getElementById('username').value = login.message;
-    })
-    .catch(error => {
-        console.error('Ошибка:', error);
-    });
+	})
+		.then(response => {
+			if (response.ok) {
+				return response.json();
+			} else {
+				throw new Error('Ошибка при получении имени пользователя');
+			}
+		})
+		.then(login => {
+			document.getElementById('username').value = login.message;
+		})
+		.catch(error => {
+			console.error('Ошибка:', error);
+		});
 }
 
 

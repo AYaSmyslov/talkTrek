@@ -177,9 +177,15 @@ app.post('/updLogin', (req, res) => {
             return;
         }
         if (result.length > 0) {
-            const updateSql = 'UPDATE users SET login = ? WHERE id_user = ?';
+            const updateSql = 'UPDATE IGNORE  users SET login = ? WHERE id_user = ?';
             db.query(updateSql, [requestData.username,  cookieData.id_user], (err, result) => {
                 if (err) throw err;
+                console.log(result.message.includes('Changed: 0'));
+                if (result.message.includes('Changed: 0')) {
+                    console.log('Имя пользователя недоступно');
+                    res.sendStatus(500);
+                    return;
+                }
                 res.sendStatus(200);
             });
         } else {
