@@ -24,7 +24,7 @@ const db = mysql.createConnection({
 ## Подготовка БД
 
 1. Заходим на MySQL сервер (Например MySQL Workbench), логинимся (root)
-![](img/Pasted image 20240430023048.png)
+![f](img/Pasted image 20240430023048.png)
 3. Выполняем скрипты на создание и заполнение бд (в ./src/db лежит два скрипта - create_db.sql и insert.db)
 4. Заходим в MySQL CLI, логинимся (root)
 5. Выполнить:
