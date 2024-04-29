@@ -37,7 +37,6 @@ function checkCookie(cookieName) {
         body: cookieData // JSON.stringify(cookieData)
     })
     .then(response => { 
-        console.log(response);
         if (response.ok) {
             return true;
         }

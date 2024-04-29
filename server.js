@@ -266,11 +266,11 @@ app.post('/getTests', async (req, res) => {
                                 LEFT JOIN 
                                     question q ON t.id_test = q.id_test
                                 LEFT JOIN 
-                                    test_results tr ON t.id_test = tr.id_test AND tr.id_user = 1
+                                    test_results tr ON t.id_test = tr.id_test AND tr.id_user = ?
                                 GROUP BY 
                                     t.id_test;
             `;
-            db.query(selectSql, [], (err, result) => {
+            db.query(selectSql, [requestData.id_user], (err, result) => {
                 if (err) throw err;
                 res.status(200).send({message: result});
             });
@@ -401,7 +401,6 @@ app.post('/saveTestRes', async (req, res) => {
             return;
         }
         if (result.length > 0) {
-            console.log(cookieData.id_user, requestData.testId, requestData.score);
             const selectSql = `INSERT INTO test_results (id_user, id_test, score)
             VALUES (?, ?, ?)
             ON DUPLICATE KEY UPDATE score = VALUES(score);
@@ -410,20 +409,6 @@ app.post('/saveTestRes', async (req, res) => {
                 if (err) throw err;
                 res.status(200).send({message: result});
             });
-            // const selectSql = `SELECT CONCAT(c.title, '-', ll.title, '-', t.title) AS combined_title,
-            //                 t.descr,
-            //                 t.timeRead,
-            //                 t.link,
-            //                 CASE WHEN ut.id_user IS NOT NULL THEN true ELSE false END AS readed
-            //                 FROM topic t
-            //                 JOIN language_levels ll ON t.id_levels = ll.id_levels
-            //                 JOIN course c ON ll.id_course = c.id_course
-            //                 LEFT JOIN user_topic ut ON t.id_topic = ut.id_topic AND ut.id_user = ?;`;
-            // db.query(selectSql, [requestData.id_user], (err, result) => {
-            //     if (err) throw err;
-            //     console.log('ok');
-            //     res.status(200).send({message: result});
-            // });
         } else {
             res.sendStatus(401); 
         }
