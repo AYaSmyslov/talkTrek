@@ -32,7 +32,6 @@ function markReaded() {
 		if (!response.ok) {
 			throw new Error('Ошибка сети');
 		}
-		alert('Изменения сохранены');
         window.location.href = "/src/templates/pages/manual.html";
     })
     .catch(error => {

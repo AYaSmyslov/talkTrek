@@ -29,11 +29,17 @@ app.post('/register', async (req, res) => {
     try {
         const hashedPassword = await bcrypt.hash(req.body.pass, 10);
         const newUser = { login: req.body.login, pass: hashedPassword, date_registration: new Date(), date_last_login: new Date() };
-        const sql = 'INSERT INTO users SET ?';
+        const sql = 'INSERT IGNORE INTO users SET ?';
         db.query(sql, newUser, (err, result) => {
             if (err) throw err;
             console.log(result);
-            res.status(201).send('User registered');
+            if (result.affectedRows == 0)
+            {
+                res.status(500).send('User registered');
+            }
+            else {
+                res.status(201).send('User registered');
+            }
         });
     } catch {
         res.status(500).send('Server error');
@@ -120,8 +126,38 @@ app.post('/getUserName', (req, res) => {
             return;
         }
         if (result.length > 0) {
-            // (result[0].login);
             res.status(200).send({ message: result[0].login }); 
+        } else {
+            res.sendStatus(401); 
+        }
+    });
+});
+
+
+
+app.post('/getCntPassTests', async (req, res) => {
+    const requestData = req.body;
+    const thresholdMinutes = 60; 
+    const sqlCheck = 'SELECT * FROM users WHERE id_user = ? AND sessionToken = ? AND TIMESTAMPDIFF(MINUTE, date_last_login, NOW()) < ?;';
+    db.query(sqlCheck, [requestData.id_user, requestData.sessionToken, thresholdMinutes], async (err, result) => {
+        if (err) {
+            console.error('Ошибка выполнения SQL-запроса:', err);
+            res.sendStatus(500);
+            return;
+        }
+        if (result.length > 0) {
+            const selectSql = `SELECT COUNT(*) AS tests_passed
+            FROM test
+            WHERE id_test IN (
+                SELECT id_test
+                FROM test_results
+                WHERE id_user = ?
+            );
+        `;
+            db.query(selectSql, [requestData.id_user], (err, result) => {
+                if (err) throw err;
+                res.status(200).send({message: result});
+            });
         } else {
             res.sendStatus(401); 
         }
@@ -192,18 +228,6 @@ app.post('/getTopics', async (req, res) => {
             return;
         }
         if (result.length > 0) {
-            // const selectSql = `SELECT CONCAT(c.title, '-', ll.title, '-', t.title) AS combined_title,\
-            //                     t.descr,\
-            //                     t.timeRead,\
-            //                     t.link\
-            //                     FROM topic t\
-            //                     JOIN language_levels ll ON t.id_levels = ll.id_levels\
-            //                     JOIN course c ON ll.id_course = c.id_course;`;
-            // db.query(selectSql, [], (err, result) => {
-            //     if (err) throw err;
-            //     console.log(result);
-            //     res.status(200).send({message: result});
-            // });
             const selectSql = `SELECT CONCAT(c.title, '-', ll.title, '-', t.title) AS combined_title,
                             t.descr,
                             t.timeRead,
@@ -215,7 +239,6 @@ app.post('/getTopics', async (req, res) => {
                             LEFT JOIN user_topic ut ON t.id_topic = ut.id_topic AND ut.id_user = ?;`;
             db.query(selectSql, [requestData.id_user], (err, result) => {
                 if (err) throw err;
-                console.log(result);
                 res.status(200).send({message: result});
             });
         } else {
@@ -224,7 +247,38 @@ app.post('/getTopics', async (req, res) => {
     });
 });
 
-
+app.post('/getTests', async (req, res) => {
+    const requestData = req.body;
+    const sqlCheck = 'SELECT * FROM users WHERE id_user = ? AND sessionToken = ? AND TIMESTAMPDIFF(MINUTE, date_last_login, NOW()) < ?;';
+    db.query(sqlCheck, [requestData.id_user, requestData.sessionToken, thresholdMinutes], async (err, result) => {
+        if (err) {
+            console.error('Ошибка выполнения SQL-запроса:', err);
+            res.sendStatus(500);
+            return;
+        }
+        if (result.length > 0) {
+            const selectSql = `SELECT 
+                                    t.*, 
+                                    COUNT(q.id_question) AS question_count, 
+                                    COALESCE(tr.score, 0) AS score
+                                FROM 
+                                    test t
+                                LEFT JOIN 
+                                    question q ON t.id_test = q.id_test
+                                LEFT JOIN 
+                                    test_results tr ON t.id_test = tr.id_test AND tr.id_user = 1
+                                GROUP BY 
+                                    t.id_test;
+            `;
+            db.query(selectSql, [], (err, result) => {
+                if (err) throw err;
+                res.status(200).send({message: result});
+            });
+        } else {
+            res.sendStatus(401); 
+        }
+    });
+});
 
 app.post('/markReaded', (req, res) => {
     const requestData = req.body;
@@ -276,6 +330,230 @@ app.post('/markReaded', (req, res) => {
         }
     });
 });
+
+
+
+app.post('/getTestById', async (req, res) => {
+    const requestData = req.body;
+    let cookieData = JSON.parse(requestData.cookieData);
+    const thresholdMinutes = 60; 
+    const sqlCheck = 'SELECT * FROM users WHERE id_user = ? AND sessionToken = ? AND TIMESTAMPDIFF(MINUTE, date_last_login, NOW()) < ?;';
+    db.query(sqlCheck, [cookieData.id_user, cookieData.sessionToken, thresholdMinutes], async (err, result) => {
+        if (err) {
+            console.error('Ошибка выполнения SQL-запроса:', err);
+            res.sendStatus(500);
+            return;
+        }
+        if (result.length > 0) {
+            const selectSql = `SELECT 
+                                q.descr AS question,
+                                q.question_type,
+                                CASE 
+                                    WHEN q.question_type = 1 THEN MAX(a.is_correct) 
+                                    ELSE GROUP_CONCAT(CASE WHEN a.is_correct = 1 THEN a.title ELSE NULL END ORDER BY a.id_answer SEPARATOR ';')
+                                END AS correct,
+                                GROUP_CONCAT(DISTINCT a.title ORDER BY a.id_answer SEPARATOR ';') AS options
+                            FROM 
+                                question q
+                            JOIN 
+                                answer a ON q.id_question = a.id_question
+                            WHERE 
+                                q.id_test = ?
+                            GROUP BY 
+                                q.id_question;
+        `;
+            db.query(selectSql, [requestData.testId], (err, result) => {
+                if (err) throw err;
+                res.status(200).send({message: result});
+            });
+            // const selectSql = `SELECT CONCAT(c.title, '-', ll.title, '-', t.title) AS combined_title,
+            //                 t.descr,
+            //                 t.timeRead,
+            //                 t.link,
+            //                 CASE WHEN ut.id_user IS NOT NULL THEN true ELSE false END AS readed
+            //                 FROM topic t
+            //                 JOIN language_levels ll ON t.id_levels = ll.id_levels
+            //                 JOIN course c ON ll.id_course = c.id_course
+            //                 LEFT JOIN user_topic ut ON t.id_topic = ut.id_topic AND ut.id_user = ?;`;
+            // db.query(selectSql, [requestData.id_user], (err, result) => {
+            //     if (err) throw err;
+            //     console.log('ok');
+            //     res.status(200).send({message: result});
+            // });
+        } else {
+            res.sendStatus(401); 
+        }
+    });
+});
+
+
+
+app.post('/saveTestRes', async (req, res) => {
+    const requestData = req.body;
+    let cookieData = JSON.parse(requestData.cookieData);
+    const thresholdMinutes = 60; 
+    const sqlCheck = 'SELECT * FROM users WHERE id_user = ? AND sessionToken = ? AND TIMESTAMPDIFF(MINUTE, date_last_login, NOW()) < ?;';
+    try {
+    db.query(sqlCheck, [cookieData.id_user, cookieData.sessionToken, thresholdMinutes], async (err, result) => {
+        if (err) {
+            console.error('Ошибка выполнения SQL-запроса:', err);
+            res.sendStatus(500);
+            return;
+        }
+        if (result.length > 0) {
+            console.log(cookieData.id_user, requestData.testId, requestData.score);
+            const selectSql = `INSERT INTO test_results (id_user, id_test, score)
+            VALUES (?, ?, ?)
+            ON DUPLICATE KEY UPDATE score = VALUES(score);
+        `;
+            db.query(selectSql, [cookieData.id_user, requestData.testId, requestData.score], (err, result) => {
+                if (err) throw err;
+                res.status(200).send({message: result});
+            });
+            // const selectSql = `SELECT CONCAT(c.title, '-', ll.title, '-', t.title) AS combined_title,
+            //                 t.descr,
+            //                 t.timeRead,
+            //                 t.link,
+            //                 CASE WHEN ut.id_user IS NOT NULL THEN true ELSE false END AS readed
+            //                 FROM topic t
+            //                 JOIN language_levels ll ON t.id_levels = ll.id_levels
+            //                 JOIN course c ON ll.id_course = c.id_course
+            //                 LEFT JOIN user_topic ut ON t.id_topic = ut.id_topic AND ut.id_user = ?;`;
+            // db.query(selectSql, [requestData.id_user], (err, result) => {
+            //     if (err) throw err;
+            //     console.log('ok');
+            //     res.status(200).send({message: result});
+            // });
+        } else {
+            res.sendStatus(401); 
+        }
+    });
+} catch (error) {
+    // Обработка ошибки
+    console.error('Произошла ошибка:', error.message);
+    // Дополнительные действия при необходимости
+}
+});
+
+
+
+app.post('/getNotPassedTests', async (req, res) => {
+    const requestData = req.body;
+    const thresholdMinutes = 60; 
+    const sqlCheck = 'SELECT * FROM users WHERE id_user = ? AND sessionToken = ? AND TIMESTAMPDIFF(MINUTE, date_last_login, NOW()) < ?;';
+    db.query(sqlCheck, [requestData.id_user, requestData.sessionToken, thresholdMinutes], async (err, result) => {
+        if (err) {
+            console.error('Ошибка выполнения SQL-запроса:', err);
+            res.sendStatus(500);
+            return;
+        }
+        if (result.length > 0) {
+            const selectSql = `SELECT COUNT(*) AS tests_not_passed
+                                FROM test
+                                WHERE id_test NOT IN (
+                                    SELECT id_test
+                                    FROM test_results
+                                    WHERE id_user = ?
+                                );
+        `;
+            db.query(selectSql, [requestData.id_user], (err, result) => {
+                if (err) throw err;
+                res.status(200).send({message: result});
+            });
+        } else {
+            res.sendStatus(401); 
+        }
+    });
+});
+
+
+
+app.post('/getNotReadedManuals', async (req, res) => {
+    const requestData = req.body;
+    const thresholdMinutes = 60; 
+    const sqlCheck = 'SELECT * FROM users WHERE id_user = ? AND sessionToken = ? AND TIMESTAMPDIFF(MINUTE, date_last_login, NOW()) < ?;';
+    db.query(sqlCheck, [requestData.id_user, requestData.sessionToken, thresholdMinutes], async (err, result) => {
+        if (err) {
+            console.error('Ошибка выполнения SQL-запроса:', err);
+            res.sendStatus(500);
+            return;
+        }
+        if (result.length > 0) {
+            const selectSql = `SELECT COUNT(*) AS manuals_not_readed
+                                FROM topic
+                                WHERE id_topic NOT IN (
+                                    SELECT id_topic
+                                    FROM user_topic
+                                    WHERE id_user = ?
+                                );
+        `;
+            db.query(selectSql, [requestData.id_user], (err, result) => {
+                if (err) throw err;
+                res.status(200).send({message: result});
+            });
+        } else {
+            res.sendStatus(401); 
+        }
+    });
+});
+
+
+
+app.post('/sendMessage', async (req, res) => {
+    const requestData = req.body;
+    let cookieData = JSON.parse(requestData.cookieData);
+    const thresholdMinutes = 60; 
+    const sqlCheck = 'SELECT * FROM users WHERE id_user = ? AND sessionToken = ? AND TIMESTAMPDIFF(MINUTE, date_last_login, NOW()) < ?;';
+    db.query(sqlCheck, [cookieData.id_user, cookieData.sessionToken, thresholdMinutes], async (err, result) => {
+        if (err) {
+            console.error('Ошибка выполнения SQL-запроса:', err);
+            res.sendStatus(500);
+            return;
+        }
+        if (result.length > 0) {
+            const insertSql = `INSERT INTO dialogue (content, date_sent, id_user) 
+            VALUES (?, ?, ?);
+            
+        `;
+            db.query(insertSql, [requestData.msg, new Date(), cookieData.id_user], (err, result) => {
+                if (err) throw err;
+                res.sendStatus(200);
+            });
+        } else {
+            res.sendStatus(401); 
+        }
+    });
+});
+
+
+
+app.post('/getMsgHistory10', async (req, res) => {
+    const requestData = req.body;
+    const sqlCheck = 'SELECT * FROM users WHERE id_user = ? AND sessionToken = ? AND TIMESTAMPDIFF(MINUTE, date_last_login, NOW()) < ?;';
+    db.query(sqlCheck, [requestData.id_user, requestData.sessionToken, thresholdMinutes], async (err, result) => {
+        if (err) {
+            console.error('Ошибка выполнения SQL-запроса:', err);
+            res.sendStatus(500);
+            return;
+        }
+        if (result.length > 0) {
+            const selectSql = `SELECT dialogue.*, users.login
+                                FROM dialogue
+                                INNER JOIN users ON dialogue.id_user = users.id_user
+                                ORDER BY dialogue.date_sent DESC
+                                LIMIT 10;
+            `;
+            db.query(selectSql, [], (err, result) => {
+                if (err) throw err;
+                res.status(200).send({message: result});
+            });
+        } else {
+            res.sendStatus(401); 
+        }
+    });
+});
+
+
 
 app.listen(3000, () => {
     console.log('Server started on port 3000');

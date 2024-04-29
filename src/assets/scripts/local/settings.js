@@ -16,6 +16,12 @@ goMainBtn.addEventListener("click", function() {
 	window.location.href = "/src/templates/pages/main.html";
 });
 
+var goMeBtn = document.getElementById("goMeBtn");
+
+goMeBtn.addEventListener("click", function() {
+    window.location.href = "/src/templates/pages/me.html";
+});
+
 // document.querySelector('.btn').addEventListener('click', function(e) {
 // 	e.preventDefault();
 // 	updateUser();

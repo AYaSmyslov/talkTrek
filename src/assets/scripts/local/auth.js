@@ -38,7 +38,7 @@ function registerUser() {
   .then(response => {
     console.log('Статус ответа:', response.status);
       if (!response.ok) {
-          throw new Error('Ошибка сети');
+          throw new Error('Имя пользователя недоступно');
       }
       alert('Регистрация успешна');
 

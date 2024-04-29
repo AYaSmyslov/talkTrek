@@ -3,6 +3,7 @@ checkCookie('sessionData').then(result => {
 	if (result) {
 		// авторизован, остаемся тут
 		getUserName();
+        getCntPassTests();
 	} else {
 		// не авторизован, выкинуть на форму авторизации
 		window.location.href = "/";
@@ -51,6 +52,40 @@ function getUserName() {
     .then(login => {
         document.getElementById('username').innerText = login.message;
     })
+    .catch(error => {
+        console.error('Ошибка:', error);
+    });
+}
+
+function getCntPassTests() {
+	let cookieValue = getCookieValue('sessionData');
+
+    let cookieData;
+    try {
+        cookieData = JSON.parse(cookieValue);
+    } catch (error) {
+        return;
+    }
+
+	fetch(`/getCntPassTests`, {
+        method: 'POST',
+		credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+		body: cookieData
+    })
+    .then(response => {
+
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error('Ошибка при получении имени пользователя');
+        }
+      })
+      .then(data => {
+        document.getElementById('level').innerText = 'Пройдено тестов: ' + data.message[0].tests_passed;
+      })
     .catch(error => {
         console.error('Ошибка:', error);
     });

@@ -65,6 +65,7 @@ width:100%;
 height:50px;
 background:#1b2125;
 position:relative;
+z-index: 1000;
 }
 
 .fa-times
@@ -97,7 +98,7 @@ text-align:center;
 cursor:pointer;
 }
 
-.fa-shopping-cart, .fa-cog
+.fa-shopping-cart, .fa-cog, .fa-user
 {
 color:#f36175;
 position:absolute;
@@ -158,9 +159,11 @@ color:#58626b;
 
 #container
 {
-    margin-left: 33%;
+    /* margin-left: 33%; */
+    margin-left: auto;
+    margin-right: auto;
     margin-top: 10%;
-    width:33%;
+    max-width:700px;
     /* height: 50vh; */
 padding:10px 30px;
 }

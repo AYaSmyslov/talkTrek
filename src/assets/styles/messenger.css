@@ -1,0 +1,162 @@
+div {
+    box-sizing: border-box;
+}
+
+
+.chat-box {
+    width: 100%;
+    height: 80vh;
+    border: 1px solid #dbdbdb;
+    box-shadow: 0px 10px 20px 10px rgba(0, 0, 0, 0.1);
+    /* margin: 20px auto; */
+    position: relative;
+}
+
+.chat-box-container {
+    height: 100%;
+    padding-bottom: 100px;
+    overflow: auto;
+}
+
+.chat-box-container .chat-block:nth-child(odd) {
+    margin: 5px;
+    overflow: hidden;
+}
+
+.chat-box-container .chat-block:nth-child(odd) .chat-message {
+    padding: 5px 10px;
+    margin: 10px;
+    background: #f1f1f1;
+    float: left;
+    border-radius: 5px;
+    white-space: pre-line;
+    max-width: 80%;
+    position: relative;
+}
+
+.chat-box-container .chat-block:nth-child(odd) .chat-message:before {
+    position: absolute;
+    content: "";
+    top: 0;
+    right: calc(100% - 2px);
+    height: 20px;
+    width: 20px;
+    border: 10px solid transparent;
+    border-right: 10px solid #f1f1f1;
+    display: block;
+    z-index: 1;
+    box-sizing: border-box;
+    transform: scaleY(0.8);
+}
+
+.chat-box-container .chat-block:nth-child(even) {
+    margin: 5px;
+    overflow: hidden;
+}
+
+.chat-box-container .chat-block:nth-child(even) .chat-message {
+    padding: 5px 10px;
+    margin: 10px;
+    background: #4990E2;
+    float: right;
+    color: white;
+    border-radius: 5px;
+    white-space: pre-line;
+    max-width: 80%;
+    position: relative;
+}
+
+.chat-box-container .chat-block:nth-child(even) .chat-message:before {
+    position: absolute;
+    content: "";
+    top: 0;
+    right: -18px;
+    height: 20px;
+    width: 20px;
+    border: 10px solid transparent;
+    border-left: 10px solid #4990E2;
+    display: block;
+    z-index: 1;
+    box-sizing: border-box;
+    transform: scaleY(0.8);
+}
+
+.chat-sender {
+    font-family: "lato";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    border-top: 1px solid #dbdbdb;
+    z-index: 3;
+    background: white;
+    z-index: 2;
+}
+
+.chat-sender .row-panda {
+    position: relative;
+    top: -10px;
+}
+
+.chat-sender .row-panda .message {
+    width: 70%;
+    font-family: "lato";
+    float: left;
+    font-size: 13px;
+    margin-right: 5px;
+    overflow-y: hidden;
+    outline: 0;
+    white-space: pre-line;
+    border: 0;
+    resize: none;
+    transition: height 0.3s ease;
+    margin-top: 10px;
+}
+
+.chat-sender .row-panda .message:focus {
+    border-bottom: 2px solid #4990E2;
+}
+
+.chat-sender .row-panda button {
+    width: 60px;
+    float: right;
+    height: 32px;
+    background: #4990E2;
+    border: 0;
+    color: white;
+    font-size: 13px;
+    font-weight: 500;
+    text-transform: uppercase;
+    padding: 0 10px;
+    border-radius: 3px;
+    margin-top: 10px;
+
+}
+
+.chat-message.big {
+    font-size: 24px;
+}
+
+.helper {
+    white-space: pre-wrap;
+    min-height: 46px;
+    padding: 5px 0;
+    position: absolute;
+    top: 0;
+    opacity: 0;
+    font-size: 15px;
+}
+
+.fa-chevron-left {
+    color: #f36175;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    height: 50px;
+    width: 50px;
+    display: table-cell;
+    line-height: 55px;
+    text-align: center;
+    cursor: pointer;
+}
