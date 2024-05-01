@@ -35,6 +35,10 @@ changeLoginBtn.addEventListener("click", function (e) {
 function updateLogin() {
 	let username = document.getElementById('username').value;
 
+	if (!checkUsername(username)) {
+	  return;
+	}
+
 	fetch(`/updLogin`, {
 		method: 'POST',
 		credentials: 'same-origin',
@@ -53,7 +57,7 @@ function updateLogin() {
 			}
 			// location.reload();
 		})
-		// .catch(error => { почему-то всегда исключение кидает
+		// .catch(error => { // почему-то всегда исключение кидает
 		// 	console.error('Ошибка:', error.toString());
 		// 	alert('Имя пользователя недоступно');
 		// });
@@ -75,6 +79,10 @@ function updatePass() {
 
 	if (newPass !== newPass2) {
 		alert('Пароли не совпадают');
+		return;
+	}
+
+	if (!checkPass(password)) {
 		return;
 	}
 

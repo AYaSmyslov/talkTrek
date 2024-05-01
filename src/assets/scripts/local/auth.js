@@ -17,12 +17,18 @@ function registerUser() {
   const password = document.getElementById('passwordReg').value;
   const confirmPassword = document.getElementById('confirmPasswordReg').value;
 
-  // Проверка соответствия пароля и его подтверждения
-  if (password !== confirmPassword) {
-      alert('Пароли не совпадают');
-      return;
+  if (!checkUsername(username)) {
+    return;
   }
 
+  // Проверка соответствия пароля и его подтверждения
+  if (password !== confirmPassword) {
+    alert('Пароли не совпадают');
+    return;
+  }
+  if (!checkPass(password)) {
+    return;
+  }
   const formData = {
       login: username,
       pass: password

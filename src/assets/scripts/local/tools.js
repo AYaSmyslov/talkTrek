@@ -50,4 +50,48 @@ function checkCookie(cookieName) {
     });
     return Promise.resolve(false);
 }
-    
+
+
+
+function checkPass(password) {
+    if (password.length < 4) {
+        alert('Пароль слишком короткий (не менее 4 символов)');
+        return false;
+    }
+
+    if (!/\d/.test(password)) {
+        alert('Пароль должен содержать хотя бы одну цифру');
+        return false;
+    }
+
+    if (!/[A-Z]/.test(password)) {
+        alert('Пароль должен содержать хотя бы одну заглавную букву');
+        return false;
+    }
+
+    if (!/[a-z]/.test(password)) {
+        alert('Пароль должен содержать хотя бы одну строчную букву');
+        return false; 
+    }
+
+    if (!/^[a-zA-Z0-9]+$/.test(username)) {
+        alert('Пароль может содержать только буквы и цифры');
+        return false;
+    }
+
+    return true;
+}
+
+function checkUsername(username) {
+    if (username.length == 0) {
+        alert('Логин не может быть пустым'); 
+        return false;
+    }
+
+    if (!/^[a-zA-Z0-9]+$/.test(username)) {
+        alert('Логин может содержать только буквы и цифры');
+        return false;
+    }
+
+    return true;
+}
