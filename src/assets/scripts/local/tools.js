@@ -74,7 +74,7 @@ function checkPass(password) {
         return false; 
     }
 
-    if (!/^[a-zA-Z0-9]+$/.test(username)) {
+    if (!/^[a-zA-Z0-9]+$/.test(password)) {
         alert('Пароль может содержать только буквы и цифры');
         return false;
     }
